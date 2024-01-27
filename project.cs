@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class Inventory
 {
-    public List<string> items = new List<string>();
+    private List<string> items = new List<string>();
 
     public void AddItem()
     {
@@ -48,6 +48,11 @@ class Inventory
             Console.WriteLine(item);
         }
     }
+
+    public IReadOnlyList<string> GetItems()
+    {
+        return items.AsReadOnly();
+    }
 }
 
 class Program
@@ -66,8 +71,8 @@ class Program
         while (true)
         {
             inventory.Display();
-            Console.WriteLine("Choose what would you like to do (Add/Delete/Exit): ");
-            string choice = Console.ReadLine();
+            Console.WriteLine("Choose what you would like to do (Add/Delete/Exit): ");
+            string choice = Console.ReadLine().Trim(); 
 
             UserAction action;
             if (Enum.TryParse(choice, true, out action))
@@ -81,16 +86,17 @@ class Program
                         inventory.DeleteItem();
                         break;
                     case UserAction.Exit:
+                        Console.WriteLine("Exiting the program. Goodbye!");
                         Environment.Exit(0);
                         break;
                     default:
-                        Console.WriteLine("Invalid choice!");
+                        Console.WriteLine("Invalid choice! Please enter a valid option.");
                         break;
                 }
             }
             else
             {
-                Console.WriteLine("Invalid choice!");
+                Console.WriteLine("Invalid choice! Please enter a valid option.");
             }
         }
     }
