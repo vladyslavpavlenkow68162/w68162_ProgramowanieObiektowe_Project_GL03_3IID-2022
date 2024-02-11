@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 class Inventory
 {
-    private Dictionary<string, string> items = new Dictionary<string, string>();
+    private Dictionary<string, (string description, int quantity)> items = new Dictionary<string, (string, int)>();
 
     public void AddItem()
     {
@@ -13,7 +13,10 @@ class Inventory
         Console.WriteLine("Enter the description of the item: ");
         string itemDescription = Console.ReadLine();
 
-        items[itemName] = itemDescription;
+        Console.WriteLine("Enter the quantity of the item: ");
+        int quantity = int.Parse(Console.ReadLine());
+
+        items[itemName] = (itemDescription, quantity);
     }
 
     public void DeleteItem()
@@ -49,11 +52,11 @@ class Inventory
         Console.WriteLine("Your inventory:");
         foreach (var kvp in items)
         {
-            Console.WriteLine($"{kvp.Key}: {kvp.Value}");
+            Console.WriteLine($"{kvp.Key}: {kvp.Value.description} (Quantity: {kvp.Value.quantity})");
         }
     }
 
-    public IReadOnlyDictionary<string, string> GetItems()
+    public IReadOnlyDictionary<string, (string description, int quantity)> GetItems()
     {
         return items;
     }
