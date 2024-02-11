@@ -3,13 +3,17 @@ using System.Collections.Generic;
 
 class Inventory
 {
-    private List<string> items = new List<string>();
+    private Dictionary<string, string> items = new Dictionary<string, string>();
 
     public void AddItem()
     {
         Console.WriteLine("Enter the item you would like to add: ");
-        string item = Console.ReadLine();
-        items.Add(item);
+        string itemName = Console.ReadLine();
+
+        Console.WriteLine("Enter the description of the item: ");
+        string itemDescription = Console.ReadLine();
+
+        items[itemName] = itemDescription;
     }
 
     public void DeleteItem()
@@ -23,7 +27,7 @@ class Inventory
         Console.WriteLine("Enter the item you would like to delete: ");
         string deleted = Console.ReadLine();
 
-        if (items.Contains(deleted))
+        if (items.ContainsKey(deleted))
         {
             items.Remove(deleted);
             Console.WriteLine($"{deleted} has been removed from your inventory.");
@@ -43,15 +47,15 @@ class Inventory
         }
 
         Console.WriteLine("Your inventory:");
-        foreach (string item in items)
+        foreach (var kvp in items)
         {
-            Console.WriteLine(item);
+            Console.WriteLine($"{kvp.Key}: {kvp.Value}");
         }
     }
 
-    public IReadOnlyList<string> GetItems()
+    public IReadOnlyDictionary<string, string> GetItems()
     {
-        return items.AsReadOnly();
+        return items;
     }
 }
 
@@ -72,7 +76,7 @@ class Program
         {
             inventory.Display();
             Console.WriteLine("Choose what you would like to do (Add/Delete/Exit): ");
-            string choice = Console.ReadLine().Trim(); 
+            string choice = Console.ReadLine().Trim();
 
             UserAction action;
             if (Enum.TryParse(choice, true, out action))
