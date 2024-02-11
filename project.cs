@@ -19,6 +19,28 @@ class Inventory
         items[itemName] = (itemDescription, quantity);
     }
 
+    public void EditItem()
+    {
+        Console.WriteLine("Enter the item you would like to edit: ");
+        string itemName = Console.ReadLine();
+
+        if (items.ContainsKey(itemName))
+        {
+            Console.WriteLine("Enter the new description of the item: ");
+            string itemDescription = Console.ReadLine();
+
+            Console.WriteLine("Enter the new quantity of the item: ");
+            int quantity = int.Parse(Console.ReadLine());
+
+            items[itemName] = (itemDescription, quantity);
+            Console.WriteLine($"{itemName} has been updated.");
+        }
+        else
+        {
+            Console.WriteLine($"{itemName} is not in the inventory.");
+        }
+    }
+
     public void DeleteItem()
     {
         if (items.Count == 0)
@@ -67,6 +89,7 @@ class Program
     enum UserAction
     {
         Add,
+        Edit,
         Delete,
         Exit
     }
@@ -78,7 +101,7 @@ class Program
         while (true)
         {
             inventory.Display();
-            Console.WriteLine("Choose what you would like to do (Add/Delete/Exit): ");
+            Console.WriteLine("Choose what you would like to do (Add/Edit/Delete/Exit): ");
             string choice = Console.ReadLine().Trim();
 
             UserAction action;
@@ -88,6 +111,9 @@ class Program
                 {
                     case UserAction.Add:
                         inventory.AddItem();
+                        break;
+                    case UserAction.Edit:
+                        inventory.EditItem();
                         break;
                     case UserAction.Delete:
                         inventory.DeleteItem();
